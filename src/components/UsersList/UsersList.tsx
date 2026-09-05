@@ -22,28 +22,20 @@ export default function UsersList() {
 
   const [Users, setdUsers] = useState<User[]>([]);
 
-  // Close Modal
   const handleClose = () => {
     setShow(false);
   };
 
-  // Open Modal + save User ID
   const handleShow = (id: number) => {
     setUserId(id);
     setShow(true);
   };
 
-  // Delete User
   const deleteUsers = async (id: number | null) => {
     try {
       let response = await axios.delete(`https://dummyjson.com/users/${id}`);
-
       console.log(response);
-
-      // Remove user from table
       setdUsers((oldUsers) => oldUsers.filter((user) => user.id !== id));
-
-      // Close Modal
       setShow(false);
     } catch (error) {
       console.log(error);
@@ -51,11 +43,9 @@ export default function UsersList() {
     }
   };
 
-  // Get Users
   const getData = async () => {
     try {
       let response = await axios.get("https://dummyjson.com/users");
-
       setdUsers(response.data.users);
     } catch (error) {
       console.log(error);
@@ -75,23 +65,17 @@ export default function UsersList() {
 
   return (
     <>
-      {/* Delete Modal */}
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Body>Are you sure you want to delete {userId}?</Modal.Body>
-
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             No
           </Button>
-
           <Button variant="warning" onClick={() => deleteUsers(userId)}>
             Yes
           </Button>
         </Modal.Footer>
       </Modal>
-
-      {/* Page Header */}
 
       <div className="title d-flex justify-content-between p-3">
         <h3>Users List</h3>
@@ -99,8 +83,6 @@ export default function UsersList() {
       </div>
 
       <hr />
-
-      {/* Users Table */}
 
       <div className="table">
         <table className="table">
@@ -114,7 +96,6 @@ export default function UsersList() {
               <th>Actions</th>
             </tr>
           </thead>
-
           <tbody>
             {Users.map((user) => (
               <tr key={user.id}>
@@ -128,6 +109,23 @@ export default function UsersList() {
                 <td>{user.phone}</td>
                 <td>{user.birthDate}</td>
                 <td>
-                  {/* Edit */}
-
-                  <button
+                  <button onClick={() => navigateUpdatadata(user.id)} className="border-0 bg-transparent p-0">
+                    <i
+                      className="text-warning fa fa-edit me-3"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+                  <i
+                    onClick={() => handleShow(user.id)}
+                    className="text-warning fa fa-trash"
+                    aria-hidden="true"
+                  ></i>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+}
