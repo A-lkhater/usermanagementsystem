@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -14,7 +14,7 @@ export default function UsersData() {
       Email: response.data.email,
       Age: response.data.age,
       PhoneNumber: response.data.phone,
-      BirthDate: response.data.birthDate.split("-").map((x) => x.padStart(2, "0")).join("-"),
+      BirthDate: response.data.birthDate.split("-").map((x: string) => x.padStart(2, "0")).join("-"),
     });
   }
 
@@ -33,7 +33,7 @@ export default function UsersData() {
     formState: { errors },
   } = useForm();
 
-  let submitData = async (data) => {
+  let submitData = async (data: any) => {
     try {
       let response = await axios.post("https://dummyjson.com/users/add", data);
 
@@ -63,7 +63,7 @@ export default function UsersData() {
               placeholder="Enter your Frist Name"
               {...register("fristName", { required: "frist Name is required" })}
             />
-            {errors.fristName && <span className="text-danger">{errors.fristName.message}</span>}
+            {errors.fristName && <span className="text-danger">{errors.fristName.message as string}</span>}
           </div>
           <div className="col-md-6">
             <label>Last Name</label>
@@ -73,7 +73,7 @@ export default function UsersData() {
               placeholder="Enter your Last Name "
               {...register("lastName", { required: "Last Name is required" })}
             />
-            {errors.lastName && <span className="text-danger">{errors.lastName.message}</span>}
+            {errors.lastName && <span className="text-danger">{errors.lastName.message as string}</span>}
           </div>
         </div>
         <div className="row p-4 m-4">
@@ -85,7 +85,7 @@ export default function UsersData() {
               placeholder="Enter your Email"
               {...register("Email", { required: "Email is required" })}
             />
-            {errors.Email && <span className="text-danger">{errors.Email.message}</span>}
+            {errors.Email && <span className="text-danger">{errors.Email.message as string}</span>}
           </div>
           <div className="col-md-6">
             <label>Age</label>
@@ -95,7 +95,7 @@ export default function UsersData() {
               placeholder="Enter your Age "
               {...register("Age", { required: "Age is required" })}
             />
-            {errors.Age && <span className="text-danger">{errors.Age.message}</span>}
+            {errors.Age && <span className="text-danger">{errors.Age.message as string}</span>}
           </div>
         </div>
         <div className="row p-4 m-4">
@@ -107,7 +107,7 @@ export default function UsersData() {
               placeholder="Enter your Phone Number"
               {...register("PhoneNumber", { required: "Phone Number is required" })}
             />
-            {errors.PhoneNumber && <span className="text-danger">{errors.PhoneNumber.message}</span>}
+            {errors.PhoneNumber && <span className="text-danger">{errors.PhoneNumber.message as string}</span>}
           </div>
           <div className="col-md-6">
             <label>Birth Date</label>
@@ -118,7 +118,7 @@ export default function UsersData() {
               {...register("BirthDate", { required: "Birth Date is required" })}
 
             />
-            {errors.BirthDate && <span className="text-danger">{errors.BirthDate.message}</span>}
+            {errors.BirthDate && <span className="text-danger">{errors.BirthDate.message as string}</span>}
           </div>
         </div>
         <div className="text-center m-5">
@@ -128,4 +128,3 @@ export default function UsersData() {
     </>
   );
 }
-
