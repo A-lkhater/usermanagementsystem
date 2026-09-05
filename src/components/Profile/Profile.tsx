@@ -1,8 +1,6 @@
 import axios from "axios";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Profile() {
@@ -10,7 +8,6 @@ export default function Profile() {
 
   let {
     register,
-    handleSubmit,
     formState: { errors },
   } = useForm();
   console.log(userData);
@@ -35,23 +32,19 @@ export default function Profile() {
             <input
               className="form-control"
               value={userData?.firstName}
-              // type="name"
-              // placeholder="Enter your Frist Name"
               {...register("fristName", { required: "frist Name is required" })}
             />
-            {errors.fristName && <span className="text-danger">{errors.fristName.message}</span>}
+            {errors.fristName && <span className="text-danger">{errors.fristName.message as string}</span>}
           </div>
           <div className="col-md-6">
             <label>Last Name</label>
             <input
               className="form-control"
-              // type="emaill"
-              // placeholder="Enter your Last Name "
               value={userData?.lastName}
 
               {...register("lastName", { required: "Last Name is required" })}
             />
-            {errors.lastName && <span className="text-danger">{errors.lastName.message}</span>}
+            {errors.lastName && <span className="text-danger">{errors.lastName.message as string}</span>}
           </div>
         </div>
         <div className="row p-4 m-4">
@@ -59,23 +52,19 @@ export default function Profile() {
             <label>Email</label>
             <input
               className="form-control"
-              // type="name"
-              // placeholder="Enter your Email"
               value={userData?.email}
               {...register("Email", { required: "Email is required" })}
             />
-            {errors.Email && <span className="text-danger">{errors.Email.message}</span>}
+            {errors.Email && <span className="text-danger">{errors.Email.message as string}</span>}
           </div>
           <div className="col-md-6">
             <label>Gender</label>
             <input
               className="form-control"
-              // type="age"
-              // placeholder="Enter your Age "
               value={userData?.gender}
               {...register("Age", { required: "Age is required" })}
             />
-            {errors.Age && <span className="text-danger">{errors.Age.message}</span>}
+            {errors.Age && <span className="text-danger">{errors.Age.message as string}</span>}
           </div>
         </div>
         <div className="row p-4 m-4">
@@ -83,26 +72,16 @@ export default function Profile() {
             <label>Phone Number</label>
             <input
               className="form-control"
-              // type="name"
-              // placeholder="Enter your Phone Number"
               value={userData?.iat}
               {...register("PhoneNumber", { required: "Phone Number is required" })}
             />
-            {errors.PhoneNumber && <span className="text-danger">{errors.PhoneNumber.message}</span>}
+            {errors.PhoneNumber && <span className="text-danger">{errors.PhoneNumber.message as string}</span>}
           </div>
           <div className="col-md-6">
             <label>Iat</label>
             <input
               className="form-control"
-              // type="date"
-              // placeholder="Enter your Birth Date "
               value={userData?.iat}
               {...register("BirthDate", { required: "Birth Date is required" })}
 
             />
-            {errors.BirthDate && <span className="text-danger">{errors.BirthDate.message}</span>}
-          </div>
-        </div>
-      </form>
-    </>)
-}
