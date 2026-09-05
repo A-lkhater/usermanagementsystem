@@ -1,93 +1,62 @@
-import axios from "axios";
-import { useContext } from "react";
-import { useForm } from "react-hook-form";
+import axios from 'axios';
+import { useContext } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { AuthContext } from "../../context/AuthContext";
 
-export default function Profile() {
-  let { userData } = useContext(AuthContext)
+export default function Login() {
+  let { saveUSerData } = useContext(AuthContext)
 
-  let {
-    register,
-    formState: { errors },
-  } = useForm();
-  console.log(userData);
+  let { register, handleSubmit, formState: { errors }, } = useForm();
+  let navigate = useNavigate();
+
+
+  let onSubmit = async (data: any) => {
+    try {
+
+      let response = await axios.post('https://dummyjson.com/auth/login', data)
+      localStorage.setItem("usertoken", response.data.accessToken);
+      saveUSerData();
+      navigate("/dashboard");
+      toast.success("welcom login success")
+    } catch (error) {
+      console.log(error)
+
+    }
+
+  }
   return (
-    <>
-    <div className="title d-flex justify-content-between p-3">
-        <h3>Profile</h3>
-      </div>
-      <hr />
-      <div className="text-center mb-4">
-        <img
-          src={userData?.image}
-          alt="profile"
-          className="rounded-circle"
-          width="120"
-        />
-      </div>
-      <form className="shadow-sm p-4 m-4">
-        <div className="row p-4 m-4">
-          <div className="col-md-6 ">
-            <label>First Name</label>
-            <input
-              className="form-control"
-              value={userData?.firstName}
-              {...register("fristName", { required: "frist Name is required" })}
-            />
-            {errors.fristName && <span className="text-danger">{errors.fristName.message as string}</span>}
-          </div>
-          <div className="col-md-6">
-            <label>Last Name</label>
-            <input
-              className="form-control"
-              value={userData?.lastName}
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-warning">
+      <div className="text-center bg-white rounded-5  p-5">
 
-              {...register("lastName", { required: "Last Name is required" })}
-            />
-            {errors.lastName && <span className="text-danger">{errors.lastName.message as string}</span>}
-          </div>
-        </div>
-        <div className="row p-4 m-4">
-          <div className="col-md-6">
+        <h4>User Management System</h4>
+        <h6>Sign In</h6>
+        <span>Enter your credentials to access your account</span>
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="mb-3">
             <label>Email</label>
-            <input
-              className="form-control"
-              value={userData?.email}
-              {...register("Email", { required: "Email is required" })}
-            />
-            {errors.Email && <span className="text-danger">{errors.Email.message as string}</span>}
+            <input type="email" {...register("username", { required: "email is required" })} placeholder='Enter your email' className="form-control" />
           </div>
-          <div className="col-md-6">
-            <label>Gender</label>
-            <input
-              className="form-control"
-              value={userData?.gender}
-              {...register("Age", { required: "Age is required" })}
-            />
-            {errors.Age && <span className="text-danger">{errors.Age.message as string}</span>}
-          </div>
-        </div>
-        <div className="row p-4 m-4">
-          <div className="col-md-6">
-            <label>Phone Number</label>
-            <input
-              className="form-control"
-              value={userData?.iat}
-              {...register("PhoneNumber", { required: "Phone Number is required" })}
-            />
-            {errors.PhoneNumber && <span className="text-danger">{errors.PhoneNumber.message as string}</span>}
-          </div>
-          <div className="col-md-6">
-            <label>Iat</label>
-            <input
-              className="form-control"
-              value={userData?.iat}
-              {...register("BirthDate", { required: "Birth Date is required" })}
+          {errors?.username && <span className='text-danger'>{errors.username.message as string}</span>}
 
-            />
-            {errors.BirthDate && <span className="text-danger">{errors.BirthDate.message as string}</span>}
+          <div className="mb-3">
+            <label>Password</label>
+            <input type="password" {...register("password", { required: "password is required" })} placeholder='Enter your password' className="form-control" />
+
           </div>
-        </div>
-      </form>
-    </>)
+          {errors?.password && <span className='text-danger'>{errors.password.message as string}</span>}
+
+          <button
+            className="btn btn-warning w-100"
+            type="submit"
+          >
+            SIGN IN
+          </button>
+        </form>
+
+      </div>
+    </div>
+  )
 }
