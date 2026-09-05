@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../context/AuthContext";
@@ -13,7 +12,7 @@ export default function Profile() {
   console.log(userData);
   return (
     <>
-    <div className="title d-flex justify-content-between p-3">
+      <div className="title d-flex justify-content-between p-3">
         <h3>Profile</h3>
       </div>
       <hr />
@@ -41,7 +40,6 @@ export default function Profile() {
             <input
               className="form-control"
               value={userData?.lastName}
-
               {...register("lastName", { required: "Last Name is required" })}
             />
             {errors.lastName && <span className="text-danger">{errors.lastName.message as string}</span>}
@@ -83,5 +81,11 @@ export default function Profile() {
               className="form-control"
               value={userData?.iat}
               {...register("BirthDate", { required: "Birth Date is required" })}
-
             />
+            {errors.BirthDate && <span className="text-danger">{errors.BirthDate.message as string}</span>}
+          </div>
+        </div>
+      </form>
+    </>
+  )
+}
